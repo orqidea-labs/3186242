@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: qa_postgres_test
+    restart: unless-stopped
+    environment:
+    
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"   # Puerto distinto al de Orqidea Core
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - qa_net
+
+  api:
+    build:
+      context: ./backend
+    container_name: qa_api
+    restart: unless-stopped
+    ports:
+      - "5001:5000"   # Puerto distinto al de Orqidea Core
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - qa_net
+
+  qa_api_test:
+    build:
+      context: ./tests
+    container_name: qa_api_test
+    depends_on:
+      - api
+    volumes:
+      - ./tests:/app
+      - ./tests/newman_report:/app/reports
+    environment:
+      - NODE_ENV=production
+    command: >
+      newman run postman_collection.json
+      --reporters cli,html
+      --reporter-html-export reports/report.html
+    networks:
+      - qa_net
+
+volumes:
+  db_data:
+
+networks:
+  qa_net:
+    driver: bridge

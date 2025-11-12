@@ -1,0 +1,132 @@
+{
+	"id": "06f191ee-8d3f-4b54-9632-f487d3664e95",
+	"name": "QA API – Registro y Login",
+	"timestamp": "2025-11-12T02:06:09.102Z",
+	"collection_id": "46826320-cd53cad6-3dfa-4884-849a-88d33475f453",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 0,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-11-12T02:06:08.402Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "02f58629-e110-4dbd-b275-353a651cdcec",
+			"name": "🔹 1. Registro de usuario",
+			"url": "http://localhost:5001/register",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				10
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "f766fa9e-08f9-4da8-8bf6-6b32183f8ca8",
+			"name": "🔹 2. Registro duplicado (ya existe)",
+			"url": "http://localhost:5001/register",
+			"time": 14,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				14
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "a642da9f-f8ab-4293-b4d7-2eaf4188f18a",
+			"name": "🔹 3. Login exitoso",
+			"url": "http://localhost:5001/login",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "05ad186c-5094-49f8-95f1-4efa13108818",
+			"name": "🔹 4. Login inválido",
+			"url": "http://localhost:5001/login",
+			"time": 10,
+			"responseCode": {
+				"code": 401,
+				"name": "UNAUTHORIZED"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				10
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ee0e5a93-8676-4328-809b-ccbc91766b62",
+			"name": "🔹 5. Health check",
+			"url": "http://localhost:5001/health",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 47,
+	"collection": {
+		"requests": [
+			{
+				"id": "02f58629-e110-4dbd-b275-353a651cdcec",
+				"method": "POST"
+			},
+			{
+				"id": "f766fa9e-08f9-4da8-8bf6-6b32183f8ca8",
+				"method": "POST"
+			},
+			{
+				"id": "a642da9f-f8ab-4293-b4d7-2eaf4188f18a",
+				"method": "POST"
+			},
+			{
+				"id": "05ad186c-5094-49f8-95f1-4efa13108818",
+				"method": "POST"
+			},
+			{
+				"id": "ee0e5a93-8676-4328-809b-ccbc91766b62",
+				"method": "GET"
+			}
+		]
+	}
+}

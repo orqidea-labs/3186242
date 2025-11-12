@@ -1,0 +1,182 @@
+{
+  "info": {
+    "name": "QA API – Registro y Login",
+    "_postman_id": "b8a1f3a0-1234-5678-9876-abcdef123456",
+    "description": "Colección de pruebas para la API Flask (registro, login y health check)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://host.docker.internal:5001/health",
+          "protocol": "http",
+          "host": ["host.docker.internal"],
+          "port": "5001",
+          "path": ["health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Registro Usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"usuario1@ejemplo.com\",\n  \"password\": \"12345\"\n}"
+        },
+        "url": {
+          "raw": "http://host.docker.internal:5001/register",
+          "protocol": "http",
+          "host": ["host.docker.internal"],
+          "port": "5001",
+          "path": ["register"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test('Contiene mensaje de éxito', function () {",
+              "    pm.expect(pm.response.text()).to.include('Usuario registrado');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Registro Duplicado",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"usuario1@ejemplo.com\",\n  \"password\": \"12345\"\n}"
+        },
+        "url": {
+          "raw": "http://host.docker.internal:5001/register",
+          "protocol": "http",
+          "host": ["host.docker.internal"],
+          "port": "5001",
+          "path": ["register"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code 400', function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test('Error usuario ya registrado', function () {",
+              "    pm.expect(pm.response.text()).to.include('Usuario ya registrado');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login Exitoso",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"usuario1@ejemplo.com\",\n  \"password\": \"12345\"\n}"
+        },
+        "url": {
+          "raw": "http://host.docker.internal:5001/login",
+          "protocol": "http",
+          "host": ["host.docker.internal"],
+          "port": "5001",
+          "path": ["login"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Contiene mensaje de login exitoso', function () {",
+              "    pm.expect(pm.response.text()).to.include('Login exitoso');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login Inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"usuario1@ejemplo.com\",\n  \"password\": \"incorrecta\"\n}"
+        },
+        "url": {
+          "raw": "http://host.docker.internal:5001/login",
+          "protocol": "http",
+          "host": ["host.docker.internal"],
+          "port": "5001",
+          "path": ["login"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code 401', function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "pm.test('Contiene mensaje de credenciales inválidas', function () {",
+              "    pm.expect(pm.response.text()).to.include('Credenciales inválidas');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}

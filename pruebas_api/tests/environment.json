@@ -1,0 +1,12 @@
+{
+  "id": "qa_env",
+  "name": "QA Environment",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://api:5000",
+      "enabled": true
+    }
+  ],
+  "type": "environment"
+}
